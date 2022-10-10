@@ -1,0 +1,19 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model IEnumerable<Fridge>
+    Layout = "_Layout1";
+}
+<div>
+    <div class="row">
+        @foreach (var fridge in Model)
+        {
+            <div class="col-sm-4">
+                <p class="example-shadow-2">
+                    <a href="/Fridge/Assortment?fridgeId=@fridge.Id">@fridge.Name<br><br>@fridge.TypeId<br></a>
+                </p>
+            </div>
+        }
+    </div>
+</div>

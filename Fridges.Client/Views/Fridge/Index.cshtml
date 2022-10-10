@@ -1,0 +1,39 @@
+﻿@{
+    @model IEnumerable<Fridge>
+    Context.Request.Cookies.TryGetValue("accessToken", out string a);
+    if (a is not null)
+    {
+        Layout = "_LayoutAuthorized";
+    }
+    else
+    {
+        Layout = "_LayoutNotAuthorized";
+    }
+}
+
+@*<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>*@
+<div class="myDiv">
+        <h1>Me & my contacts</h1>
+</div>
+<div>
+    <p class="text">Daniil Danilkov, 19 years old<br>
+        Student of BSU in specialties computer security<br>
+        Level English: B1<br>
+        Phone: +375(29)673-65-34<br>
+        Email: danieslstudentbsu@gmail.com<br>
+        Skype: live:.cid.685e434f11dfd0a0<br>
+        </p>
+</div>
+<div class="myDiv">
+    <h1>About project:</h1>
+</div>
+<div>
+    <p class="text">Server:<br>
+    Discription<br><br>
+    Client:<br>
+    Discription
+    </p>
+</div>
