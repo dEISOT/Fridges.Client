@@ -7,6 +7,7 @@ namespace Fridges.Client.Models
         [Key]
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public Guid TypeId { get; set; }
+        public string AccountName { get; set; }
+        public string Type { get; set; }
     }
 }

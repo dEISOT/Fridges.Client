@@ -1,5 +1,8 @@
-﻿using Fridges.Client.Services.Contracts;
+﻿using Fridges.Client.Models;
+using Fridges.Client.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
+using System.Net.Http.Headers;
 
 namespace Fridges.Client.Controllers
 {
@@ -7,28 +10,58 @@ namespace Fridges.Client.Controllers
     {
         private readonly IFridgeService _fridgeService;
         private readonly IAssortmentService _assortmentService;
+        private readonly HttpClient _httpClient;
 
-        public FridgeController(IFridgeService fridgeService, IAssortmentService assortmentService)
+        public FridgeController(IFridgeService fridgeService, IAssortmentService assortmentService, HttpClient httpClient)
         {
             _fridgeService = fridgeService;
             _assortmentService = assortmentService;
+            _httpClient = httpClient;
         }
 
         public IActionResult Index()
         {
             return View();
         }
-        public async Task<IActionResult> Fridges()
+        public async Task<IActionResult> Fridges(int page = 1)
         {
+            int pageSize = 3;
+            var jwt = HttpContext.Request.Cookies["accessToken"];
+            //string token = "Bearer " + jwt;
+            //HttpContext.Response.Headers.Authorization.Append(token);
+            //Request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", jwt).ToString();
 
-            var fridges = await _fridgeService.GetAsync();
-            return View(fridges);
+
+            var fridges = await _fridgeService.GetAsync(jwt);
+            int count = fridges.Count();
+            var items = fridges.Skip((page - 1) * pageSize).Take(pageSize);
+            PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
+            IndexViewModel viewModel = new IndexViewModel
+            {
+                PageViewModel = pageViewModel,
+                Fridges = items
+            };
+            return View(viewModel);
         }
         public async Task<IActionResult> Assortment(Guid fridgeId)
         {
             var products = await _assortmentService.GetProductsAsync(fridgeId);
             ViewBag.Assortments = products;
+            ViewBag.FridgeId = fridgeId;
             return View();
+        }
+        private static IDictionary<string, string> ExtractCookiesFromResponse(HttpResponseMessage response)
+        {
+            IDictionary<string, string> result = new Dictionary<string, string>();
+            IEnumerable<string> values;
+            if (response.Headers.TryGetValues("Set-Cookie", out values))
+            {
+                Microsoft.Net.Http.Headers.SetCookieHeaderValue.ParseList(values.ToList()).ToList().ForEach(cookie =>
+                {
+                    result.Add(cookie.Name.Value, cookie.Value.Value);
+                });
+            }
+            return result;
         }
         
     }

@@ -2,7 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    ViewBag.Title = "Index";
+    Layout = "_LayoutAuthorized";
 }
 
 <div>
@@ -13,6 +13,8 @@
             <p>Время работы:</p>
         </div>
         <a class="button" href="#openModal">Добавить предмет</a>
+        <a class="button" href="/Assortment/DeleteAll?fridgeId=@ViewBag.FridgeId">Удалить все продукты</a>
+
         <br>
         <table class="table_price">
             <colgroup>
@@ -21,16 +23,16 @@
             </colgroup>
             <tr>
                 <th>Наименование</th>
-                <th>Цена, руб.</th>
+                <th>Количество</th>
             </tr>
 
             @foreach (Assortment p in ViewBag.Assortments)
             {
                 <tr>
-                    <td>@p. </td>
+                    <td>@p.Name </td>
                     <td>@p.Quantity</td>
                     <td>
-                    <th><a href="#">Удалить</a></th></td>
+                    <th><a href="/Assortment/Delete?assortmentId=@p.Id">Удалить</a></th></td>
                 </tr>
             }
         </table>
@@ -40,16 +42,29 @@
 <div id="openModal" class="modalDialog">
     <div>
         <a href="#close" title="Закрыть" class="close">X</a>
-        <form method="post" action="/Shop/Create">
-            <input type="hidden" value="@ViewBag.BookId" name="BookId" />
+        <form method="post" action="#">
+            <input type="hidden" value="@ViewBag.FridgeId" name="FridgeId" />
             <table>
                 <tr>
-                    <td><p>Введите свое имя </p></td>
-                    <td><input type="text" name="Person" /> </td>
+                    <td><p>Выберите продукт</p></td>
+                    <td>
+                        <select name="products" id="products">
+                           @* @foreach(Product p in ViewBag.Products)
+                            {
+                            <option value=@ViewBag.Products.Id>@ViewBag.Products.Name</option>
+                                
+                            }*@
+                            <option value="volvo">Volvo</option>
+                            <option value="saab">Saab</option>
+                            <option value="opel">Opel</option>
+                            <option value="audi">Audi</option>
+                        </select>
+                    </td>
+                        @*<input type="text" name="Person" />*@ 
                 </tr>
                 <tr>
-                    <td><p>Введите адрес :</p></td>
-                    <td><input type="text" name="Address" /> </td>
+                    <td><p>Введите количество :</p></td>
+                    <td><input type="text" name="Quantity" /> </td>
                 </tr>
                 <tr>
                     <td><input type="submit" value="Отправить" /> </td>

@@ -15,9 +15,18 @@ namespace Fridges.Client.Services
 
         public async Task<IEnumerable<Assortment>> GetProductsAsync(Guid fridgeId)
         {
-            var assortment = await _httpClient.GetAsync($"/api/Assortment/{fridgeId}");
+            var assortment = await _httpClient.GetAsync($"/Assortment/{fridgeId}");
             return JsonConvert.DeserializeObject<IEnumerable<Assortment>>(await assortment.Content.ReadAsStringAsync());
 
+        } 
+        public async Task DeleteAsync(string assortmentId)
+        {
+            await _httpClient.DeleteAsync($"/Assortment/{assortmentId}");
+        }
+
+        public async Task DeleteAllAsync(string fridgeId)
+        {
+            await _httpClient.DeleteAsync($"/Assortment/{fridgeId}/deleteAll");
         }
     }
 }
