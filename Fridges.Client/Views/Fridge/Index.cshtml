@@ -1,11 +1,16 @@
 ﻿@{
     @model IEnumerable<Fridge>
-    Context.Request.Cookies.TryGetValue("accessToken", out string a);
-    if (a is not null)
+    Context.Request.Cookies.TryGetValue("accessToken", out string token);
+    Context.Request.Cookies.TryGetValue("Role", out string role);
+    if (token is not null && role == "Admin")
     {
-        Layout = "_LayoutAuthorized";
+        Layout = "_LayoutAuthorizedAdmin";
     }
-    else
+    if (token is not null && role == "User")
+    {
+        Layout = "_LayoutAuthorizedUser";
+    }
+    if(token is null)
     {
         Layout = "_LayoutNotAuthorized";
     }

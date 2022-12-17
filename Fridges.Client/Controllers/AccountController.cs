@@ -1,10 +1,5 @@
 ﻿using Fridges.Client.Services.Contracts;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
-using System.Security.Claims;
-using System.Text.RegularExpressions;
 
 namespace Fridges.Client.Controllers
 {
@@ -17,7 +12,6 @@ namespace Fridges.Client.Controllers
             _accountService = accountService;
         }
 
-        [HttpPost]
         public async Task<IActionResult> Login(string email, string password)
         {
             //var response = await _accountService.Login(email, password);
@@ -30,32 +24,31 @@ namespace Fridges.Client.Controllers
 
 
             var response = await _accountService.Login(email, password);
-            
-            var Cookies = ExtractCookiesFromResponse(response);
 
-            foreach (var item in Cookies)
-            {
-                HttpContext.Response.Cookies.Append(
-                    item.Key,
-                    item.Value,
-                    new CookieOptions { IsEssential = true });
-            }
-            
-            var check = User.Identity.IsAuthenticated;
-            
+            //var Cookies = ExtractCookiesFromResponse(response);
+            //HttpContext.Response.Cookies.Append(
+            //        "a",
+            //        item.Value,
+            //        new CookieOptions { IsEssential = true });
+            //var jwt = new JwtSecurityTokenHandler().ReadJwtToken(response.AccessToken);
+            //string user = jwt.Claims.First(c => c.Type == "user").Value;
 
+            HttpContext.Response.Cookies.Append("accessToken", response.AccessToken, new CookieOptions { IsEssential = true });
+            HttpContext.Response.Cookies.Append("refreshToken", response.RefreshToken, new CookieOptions {  IsEssential = true });
+            HttpContext.Response.Cookies.Append("role", response.Role, new CookieOptions { IsEssential = true });  
             return Redirect("/Fridge/Index");
         }
-        [HttpPost]
+        
         public async Task<IActionResult> Register(string email, string password)
         {
             await _accountService.Register(email, password);
             return View();
         }
-        [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            await _accountService.Logout();
+            var refreshToken = HttpContext.Request.Cookies["refreshToken"];
+            var accessToken = HttpContext.Request.Cookies["accessToken"];
+            await _accountService.Logout(refreshToken, accessToken);
             Response.Cookies.Delete("accessToken");
             return Redirect("/Fridge/Index");
         }
@@ -74,20 +67,6 @@ namespace Fridges.Client.Controllers
             return result;
         }
 
-        private IDictionary<string, string> ExtractCookiesFromResponse()
-        {
-            IDictionary<string, string> result = new Dictionary<string, string>();
-            StringValues values;
-            var check = HttpContext.Response.Headers.TryGetValue("Set-Cookie", out values);
-            if (check)
-            {
-                Microsoft.Net.Http.Headers.SetCookieHeaderValue.ParseList(values.ToList()).ToList().ForEach(cookie =>
-                {
-                    result.Add(cookie.Name.Value, cookie.Value.Value);
-                });
-            }
-            return result;
-        }
 
     }
 }

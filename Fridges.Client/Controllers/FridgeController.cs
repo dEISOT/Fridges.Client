@@ -1,8 +1,6 @@
 ﻿using Fridges.Client.Models;
 using Fridges.Client.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
-using System.Net.Http.Headers;
 
 namespace Fridges.Client.Controllers
 {
@@ -45,10 +43,18 @@ namespace Fridges.Client.Controllers
         }
         public async Task<IActionResult> Assortment(Guid fridgeId)
         {
-            var products = await _assortmentService.GetProductsAsync(fridgeId);
-            ViewBag.Assortments = products;
+            var data = await _assortmentService.GetProductsAsync(fridgeId);
+            ViewBag.AssortmentList = data.AssortmentList;
+            ViewBag.ProductList = data.ProductList;
             ViewBag.FridgeId = fridgeId;
             return View();
+        }
+
+        public async Task<IActionResult> Delete(Guid fridgeId)
+        {
+            var jwt = HttpContext.Request.Cookies["accessToken"];
+            await _fridgeService.DeleteAsync(fridgeId, jwt);
+            return Redirect("/Fridge/Fridges");
         }
         private static IDictionary<string, string> ExtractCookiesFromResponse(HttpResponseMessage response)
         {

@@ -19,6 +19,10 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Fridges.Client/Fridges.Client/Views/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Fridges.Client/Fridges.Client/Views/Fridge/Assortment.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRnJpZGdlXEFzc29ydG1lbnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -35,8 +39,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Fridges.Client/Fridges.Client/Views/Shared/_LayoutAuthorized.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRBdXRob3JpemVkLmNzaHRtbA==
+[D:/Fridges.Client/Fridges.Client/Views/Shared/_LayoutAuthorizedAdmin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRBdXRob3JpemVkQWRtaW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Fridges.Client/Fridges.Client/Views/Shared/_LayoutAuthorizedUser.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRBdXRob3JpemVkVXNlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Fridges.Client/Fridges.Client/Views/Shared/_ValidationScriptsPartial.cshtml]

@@ -28,3 +28,8 @@ D:\Fridges.Client\Fridges.Client\bin\Debug\net6.0\Newtonsoft.Json.dll
 D:\Fridges.Client\Fridges.Client\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
 D:\Fridges.Client\Fridges.Client\obj\Debug\net6.0\Fridges.Client.csproj.CopyComplete
 D:\Fridges.Client\Fridges.Client\obj\Debug\net6.0\scopedcss\Views\Shared\_LayoutNotAuthorized.cshtml.rz.scp.css
+D:\Fridges.Client\Fridges.Client\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+D:\Fridges.Client\Fridges.Client\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Fridges.Client\Fridges.Client\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+D:\Fridges.Client\Fridges.Client\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+D:\Fridges.Client\Fridges.Client\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll

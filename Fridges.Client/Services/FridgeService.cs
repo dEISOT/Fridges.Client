@@ -14,10 +14,17 @@ namespace Fridges.Client.Services
             _httpClient = httpClient;
         }
 
+        public async Task DeleteAsync(Guid fridgeId, string jwt)
+        {
+            _httpClient.DefaultRequestHeaders.Accept.Add(
+               new MediaTypeWithQualityHeaderValue("application/json"));
+            _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {jwt}");
+            await _httpClient.DeleteAsync($"/Fridge/{fridgeId}");
+        }
+
         public async Task<IEnumerable<Fridge>> GetAsync(string jwt)
         {
-            //_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-            //using var client = new HttpClient();
+            
             _httpClient.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
             _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {jwt}");

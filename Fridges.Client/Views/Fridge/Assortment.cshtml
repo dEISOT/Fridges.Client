@@ -2,75 +2,120 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    Layout = "_LayoutAuthorized";
+    Context.Request.Cookies.TryGetValue("Role", out string role);
+    if (role == "Admin")
+    {
+        Layout = "_LayoutAuthorizedAdmin";
+    }
+    if (role == "User")
+    {
+        Layout = "_LayoutAuthorizedUser";
+    }
 }
 
 <div>
     <div class="m-1">
         <div class="mb-1">
-            <h4>Детали</h4>
+            <h4>Details</h4>
             <p>Адрес: </p>
             <p>Время работы:</p>
         </div>
-        <a class="button" href="#openModal">Добавить предмет</a>
-        <a class="button" href="/Assortment/DeleteAll?fridgeId=@ViewBag.FridgeId">Удалить все продукты</a>
+        <a class="button" href="#AddModal">Add new product</a>
+        <a class="button" href="/Assortment/DeleteAll?fridgeId=@ViewBag.FridgeId">Delete all products</a>
 
         <br>
-        <table class="table_price">
-            <colgroup>
+        <table class="table table-bordered">
+            @*<colgroup>
                 <col span="3">
                 <col>
-            </colgroup>
-            <tr>
-                <th>Наименование</th>
-                <th>Количество</th>
-            </tr>
-
-            @foreach (Assortment p in ViewBag.Assortments)
-            {
-                <tr>
-                    <td>@p.Name </td>
-                    <td>@p.Quantity</td>
-                    <td>
-                    <th><a href="/Assortment/Delete?assortmentId=@p.Id">Удалить</a></th></td>
-                </tr>
-            }
+            </colgroup>*@
+            <thead class = "thead-light text-center">
+              <tr cla>
+                <th scope="col">Name</th>
+                <th scope="col">Quantity</th>
+                <th colspan="2"></th>
+              </tr>
+            </thead>
+            <tbody>
+                @foreach (Assortment p in ViewBag.AssortmentList)
+                {
+                    <tr class="text-center" style="vertical-align:middle">
+                        <td style="vertical-align:middle">@p.Name </td>
+                        <td style="vertical-align:middle">@p.Quantity</td>
+                        <td style="vertical-align:middle"><a class="btn btn-warning   " href="#EditModal" onclick="setCurrentId('@p.Id')">Change</a></td>
+                        <td style="vertical-align:middle"><a class="btn btn-danger" href="/Assortment/Delete?assortmentId=@p.Id">Delete</a></td>
+                    </tr>
+                }
+            </tbody>
         </table>
     </div>
 </div>
 
-<div id="openModal" class="modalDialog">
+<div id="AddModal" class="modalDialog">
     <div>
         <a href="#close" title="Закрыть" class="close">X</a>
-        <form method="post" action="#">
-            <input type="hidden" value="@ViewBag.FridgeId" name="FridgeId" />
+        <form method="post" action="/Assortment/Add">
+            <input type="hidden" value="@ViewBag.FridgeId" name="fridgeId" />
             <table>
                 <tr>
                     <td><p>Выберите продукт</p></td>
                     <td>
-                        <select name="products" id="products">
-                           @* @foreach(Product p in ViewBag.Products)
+                        <select name="productId">
+                            <option disabled>Choose the product</option>
+                            @foreach(Product product in ViewBag.ProductList)
                             {
-                            <option value=@ViewBag.Products.Id>@ViewBag.Products.Name</option>
-                                
-                            }*@
-                            <option value="volvo">Volvo</option>
-                            <option value="saab">Saab</option>
-                            <option value="opel">Opel</option>
-                            <option value="audi">Audi</option>
+                            <option value="@product.Id">@product.Name</option>
+                            }
                         </select>
                     </td>
-                        @*<input type="text" name="Person" />*@ 
                 </tr>
                 <tr>
-                    <td><p>Введите количество :</p></td>
-                    <td><input type="text" name="Quantity" /> </td>
+                    <td><p>Enter the quantity:</p></td>
+                    <td><input type="number" name="quantity" min="0" /> </td>
                 </tr>
                 <tr>
-                    <td><input type="submit" value="Отправить" /> </td>
+                    <td><input type="submit" value="Send" /> </td>
                     <td></td>
                 </tr>
             </table>
         </form>
     </div>
 </div>
+
+<div id="EditModal" class="modalDialog">
+    <div>
+        <a href="#close" title="Close" class="close">X</a>
+        <form method="post" action="/Assortment/Put">
+            <input type="hidden" value="currentId" name="assortmentId" id="inputAssortmentId"/>
+            <table>
+                @*<tr>
+                    <td><p>Выберите продукт</p></td>
+                    <td>
+                        <select name="productId">
+                            <option disabled>Выберите продукт</option>
+                            @foreach(Product product in ViewBag.ProductList)
+                            {
+                            <option value="@product.Id">@product.Name</option>
+                            }
+                        </select>
+                    </td>
+                </tr>*@
+                <tr>
+                    <td><p>Enter new quantity:</p></td>
+                    <td><input type="number" name="newQuantity" min="0"/> </td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="Send" /> </td>
+                    <td></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+<script>
+    function setCurrentId(id) {
+        let element = document.getElementById('inputAssortmentId')
+        element.setAttribute("value", id)
+    }
+</script>

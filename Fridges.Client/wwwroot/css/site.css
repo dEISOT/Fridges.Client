@@ -153,6 +153,12 @@ body {
     margin-bottom: 25px;
 }
 
+.myTable{
+    text-align: center;
+    vertical-align:middle;
+
+}
+
 p {
     margin: 0;
 }

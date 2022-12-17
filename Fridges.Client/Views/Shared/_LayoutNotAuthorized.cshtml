@@ -18,19 +18,14 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Fridge" asp-action="Index">Fridges project</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="ul" style="float:right;">
-
                         <li class="li">
-                            <button type="button" class="nav-link text-dark" style="float:right;" data-toggle="modal" data-target="#mModal">Register</button>
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#LoginModal">Login</button>
                         </li>
-
                         <li class="li">
-                            <button type="button" class="nav-link text-dark" style="float:right;" data-toggle="modal" data-target="#myModal">Login</button>
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#RegisterModal">Register</button>
                         </li>
                     </ul>
                 </div>
@@ -43,8 +38,65 @@
         </main>
     </div>
 
+
+     <div class="modal fade" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+       <div class="modal-dialog" role="document">
+         <div class="modal-content">
+           <div class="modal-header">
+             <h4 class="modal-title" id="exampleModalLabel">Sign in</h4>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+             </button>
+           </div>
+           <div class="modal-body">
+             <form method="post" action="/Account/Login">
+               <div class="form-group">
+                 <label for="email">Email address</label>
+                 <input type="text" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+               </div>
+               <div class="form-group">
+                 <label for="password">Password</label>
+                 <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                 <small id="emailHelp" class="form-text text-muted">Don't share your password with anyone else.</small>
+               </div>
+               <button type="submit" class="btn btn-info" style="float: right;">Sign in</button>
+             </form>
+           </div>  
+        </div>
+      </div>
+    </div>    
+
     <!-- Modal -->
-  <form method="post" action="/Account/Login">
+    <div class="modal fade" id="RegisterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel">Register new account</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form method="post" action="/Account/Register">
+              <div class="form-group">
+                <label for="InputEmail">Email address</label>
+                <input type="text" name="email" class="form-control" id="InputEmail" aria-describedby="emailHelp" placeholder="Enter email">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+              </div>
+              <div class="form-group">
+                <label for="InputPassword">Password</label>
+                <input type="password" name="password" class="form-control" id="InputPassword" placeholder="Password">
+                <small id="emailHelp" class="form-text text-muted">Don't forget your password</small>
+              </div>
+                <button type="submit" class="btn btn-success" style="float: right;">Register</button>
+            </form>
+          </div>  
+        </div>
+      </div>
+    </div> 
+    <!-- Modal -->
+  @*<form method="post" action="/Account/Login">
       <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog">
     
@@ -70,9 +122,9 @@
       
         </div>
       </div>
-  </form>
+  </form>*@
 
-  <form method="post" action="/Account/Register">
+  @*<form method="post" action="/Account/Register">
       <div class="modal fade" id="mModal" role="dialog">
         <div class="modal-dialog">
     
@@ -98,7 +150,7 @@
       
         </div>
       </div>
-  </form>
+  </form>*@
   
 
     <footer class="border-top footer text-muted">

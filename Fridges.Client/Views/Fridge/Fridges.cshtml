@@ -3,9 +3,19 @@
 *@
 @{
     @model IndexViewModel
-    Layout = "_LayoutAuthorized";
+    Context.Request.Cookies.TryGetValue("Role", out string role);
+    if (role == "Admin")
+    {
+        Layout = "_LayoutAuthorizedAdmin";
+    }
+    if (role == "User")
+    {
+        Layout = "_LayoutAuthorizedUser";
+    }
 }
-
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
 <div class="container-fluid">
             <div class="container">
                 <div class="d-flex flex-row card-line justify-content-around">
@@ -19,6 +29,8 @@
                                     <h6 class="card-subtitle mb-2 text-muted">@fridge.AccountName</h6>
                                     <h6 class="card-subtitle mb-2 text-muted">@fridge.Type</h6>
                                     <a href="/Fridge/Assortment?fridgeId=@fridge.Id" class="card-link">Перейти</a>
+                                    <a href="/Fridge/Delete?fridgeId=@fridge.Id" class="link-dark"><span class="material-symbols-outlined">delete</span></a>
+
                                 </div>
                             </div>
                         </div>
@@ -26,24 +38,31 @@
                  </div>
             </div>
 </div>
-<div class="">   
+<div class="align-content-center">   
     @if (Model.PageViewModel.HasPreviousPage)
     {
-        <a asp-action="Fridges"
-           asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
-           class="btn btn-default">
-            <i class="glyphicon glyphicon-chevron-left"></i>
-            Назад
-        </a>
+        <ul class="pagination">
+            <li>
+                <a asp-action="Fridges" asp-route-page="@(Model.PageViewModel.PageNumber - 1)" class="btn btn-default">
+                    <i class="glyphicon glyphicon-chevron-left"></i>
+                    Назад
+                </a>
+            </li>
+        </ul>
+        
     }
     @if (Model.PageViewModel.HasNextPage)
     {
-        <a asp-action="Fridges"
-           asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
-           class="btn btn-default">
-            Вперед
-            <i class="glyphicon glyphicon-chevron-right"></i>
-        </a>
+        <ul class="pagination">
+            <li>
+                <a asp-action="Fridges"
+                   asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+                   class="btn btn-default">
+                    Вперед
+                    <i class="glyphicon glyphicon-chevron-right"></i>
+                </a>
+            </li>
+        </ul>
     }
 </div>
  
