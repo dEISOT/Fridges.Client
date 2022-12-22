@@ -8,16 +8,14 @@ namespace Fridges.Client.Controllers
     {
         private readonly IFridgeService _fridgeService;
         private readonly IAssortmentService _assortmentService;
-        private readonly HttpClient _httpClient;
 
-        public FridgeController(IFridgeService fridgeService, IAssortmentService assortmentService, HttpClient httpClient)
+        public FridgeController(IFridgeService fridgeService, IAssortmentService assortmentService)
         {
             _fridgeService = fridgeService;
             _assortmentService = assortmentService;
-            _httpClient = httpClient;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }
@@ -25,10 +23,6 @@ namespace Fridges.Client.Controllers
         {
             int pageSize = 3;
             var jwt = HttpContext.Request.Cookies["accessToken"];
-            //string token = "Bearer " + jwt;
-            //HttpContext.Response.Headers.Authorization.Append(token);
-            //Request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", jwt).ToString();
-
 
             var fridges = await _fridgeService.GetAsync(jwt);
             int count = fridges.Count();

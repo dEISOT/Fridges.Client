@@ -1,9 +1,9 @@
 ﻿using Fridges.Client.Models;
 using Fridges.Client.Services.Contracts;
+using Fridges.Client.ViewModels;
 using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
-using System.Security.Claims;
 using System.Text;
 
 namespace Fridges.Client.Services
@@ -38,6 +38,23 @@ namespace Fridges.Client.Services
                 new MediaTypeWithQualityHeaderValue("application/json"));
             _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
             await _httpClient.GetAsync($"/Account/logout/{refreshToken}");
+        }
+
+        public async Task<AuthResponseModel> RefreshTokenAsync(string accessToken, string refreshToken)
+        {
+            RefreshTokenModel model = new RefreshTokenModel()
+            { 
+                AcccessToken = accessToken,
+                RefreshToken = refreshToken
+            };
+            var data = JsonConvert.SerializeObject(model);
+            var stringContent = new StringContent(data, UnicodeEncoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/Account/refresh-token", stringContent);
+            var result = JsonConvert.DeserializeObject<AuthResponseModel>(await response.Content.ReadAsStringAsync());
+            var jwt = new JwtSecurityTokenHandler().ReadJwtToken(result.AccessToken);
+            string role = jwt.Claims.FirstOrDefault(c => c.Type == "role").Value;
+            result.Role = role;
+            return result;
         }
 
         public async Task Register(string email, string password)

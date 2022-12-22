@@ -7,5 +7,6 @@ namespace Fridges.Client.Services.Contracts
         Task<AuthResponseModel> Login(string email, string password);
         Task Register(string email, string password);
         Task Logout(string refreshToken, string accessToken);
+        Task<AuthResponseModel> RefreshTokenAsync(string accessToken, string refreshToken);
     }
 }
