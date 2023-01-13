@@ -2,7 +2,7 @@
 {
     public class RefreshTokenModel
     {
-        public string AcccessToken { get; set; }
+        public string AccessToken { get; set; }
         public string RefreshToken { get; set; }
     }
 }

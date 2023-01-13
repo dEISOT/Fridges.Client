@@ -19,10 +19,13 @@ namespace Fridges.Client.Services
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
                                                                         CancellationToken cancellationToken)
-        {
-            _logger.LogCritical("Before request");
+        { 
             var response = await base.SendAsync(request, cancellationToken);
-            _logger.LogCritical("After request");
+         
+            if(request.RequestUri.ToString() == "https://localhost/Account/refresh-token" && ((int)response.StatusCode) == StatusCodes.Status200OK)
+            {
+
+            }
             if (((int)response.StatusCode) == StatusCodes.Status401Unauthorized)
             {
                 var accessToken = _contextAccessor.HttpContext.Request.Cookies["accessToken"];
@@ -36,6 +39,7 @@ namespace Fridges.Client.Services
                 _contextAccessor.HttpContext.Response.Cookies.Append("Role", result.Role, new CookieOptions { IsEssential = true });
                 //change authorization header
                 _client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_contextAccessor.HttpContext.Request.Cookies["accessToken"]}");
+                
                 return await base.SendAsync(request, cancellationToken);
 
             }

@@ -1,4 +1,5 @@
-﻿@*
+﻿@using Fridges.Client.ViewModels
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -15,7 +16,12 @@
 }
 <head>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
+<div class="align-content-lg-end m-3 d-flex flex-row-reverse">
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#AddFridge">Add Fridge</button>
+</div>
 <div class="container-fluid">
             <div class="container">
                 <div class="d-flex flex-row card-line justify-content-around">
@@ -25,11 +31,11 @@
                             <div class="card" style="width: 18rem;">
                                 <img src="https://cdn.shopify.com/s/files/1/0036/4806/1509/products/8f19d4d2b8554289d1ad8c1bb28fd0be357cd0d3_square2911285_1.jpg?v=1634667587" class="card-img-top" alt="fridge image">
                                 <div class="card-body">
-                                    <h5 class="card-title">@fridge.Name</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">@fridge.AccountName</h6>
-                                    <h6 class="card-subtitle mb-2 text-muted">@fridge.Type</h6>
-                                    <a href="/Fridge/Assortment?fridgeId=@fridge.Id" class="card-link">Перейти</a>
-                                    <a href="/Fridge/Delete?fridgeId=@fridge.Id" class="link-dark"><span class="material-symbols-outlined">delete</span></a>
+                                    <h2 class="card-title">@fridge.Name</h2>
+                                    <h4 class="card-subtitle text-muted">@fridge.AccountName</h4>
+                                    <h4 class="card-subtitle text-muted">@fridge.Type</h4>
+                                    <h3 id="fridgeCard" class="d-inline-flex bd-highlight"><a href="/Fridge/Assortment?fridgeId=@fridge.Id" class="card-link">Перейти</a></h3>
+                                    <form action="/Fridge/Delete?fridgeId=@fridge.Id"><button type="submit" class="fridge_btn"><i class="fa fa-trash"></i></button></form>
 
                                 </div>
                             </div>
@@ -66,3 +72,35 @@
     }
 </div>
  
+ <div class="modal fade" id="AddFridge" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+       <div class="modal-dialog" role="document">
+         <div class="modal-content">
+           <div class="modal-header">
+             <h4 class="modal-title" id="exampleModalLabel">Add New Fridge</h4>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+             </button>
+           </div>
+           <div class="modal-body">
+             <form method="post" action="/Fridge/Add">
+               <div class="form-group">
+                   <input type="text" name="name" class="form-control" id="InputName" placeholder="Enter Fridge Name">
+               </div>
+               <div class="form-group">
+                 <label for="email">Choose the Fridge Type</label>
+                 <select name="productId" class="dropdown-menu">
+                            <option disabled >Choose the model</option>
+                            @foreach(FridgeType type in ViewBag.FridgeTypes)
+                            {
+                                <option value="@type.TypeId" class="dropdown-item">@type.Name</option>
+                            }
+                 </select>
+               </div> 
+               <input type="hidden" value="2f48bed2-c5ba-48c9-aca3-1639f75ada10" name="typeId" />
+               <button type="submit" class="btn btn-info" style="float: right;">Add</button>
+             </form>
+           </div>  
+        </div>
+      </div>
+ </div>    
+    

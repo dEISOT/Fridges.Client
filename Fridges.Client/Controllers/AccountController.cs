@@ -17,7 +17,7 @@ namespace Fridges.Client.Controllers
             var response = await _accountService.Login(email, password);
 
             HttpContext.Response.Cookies.Append("accessToken", response.AccessToken, new CookieOptions { IsEssential = true });
-            HttpContext.Response.Cookies.Append("refreshToken", response.RefreshToken, new CookieOptions {  IsEssential = true });
+            HttpContext.Response.Cookies.Append("refreshToken", response.RefreshToken, new CookieOptions { IsEssential = true });
             HttpContext.Response.Cookies.Append("Role", response.Role, new CookieOptions { IsEssential = true });  
 
             return Redirect("/Fridge/Index");

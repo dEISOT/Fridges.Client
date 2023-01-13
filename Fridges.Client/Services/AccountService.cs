@@ -12,8 +12,10 @@ namespace Fridges.Client.Services
     {
         private readonly HttpClient _httpClient;
 
-        public AccountService(HttpClient httpClient) => (_httpClient) = (httpClient);
-      
+        public AccountService(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
 
         public async Task<AuthResponseModel> Login(string email, string password)
         {
@@ -44,12 +46,12 @@ namespace Fridges.Client.Services
         {
             RefreshTokenModel model = new RefreshTokenModel()
             { 
-                AcccessToken = accessToken,
+                AccessToken = accessToken,
                 RefreshToken = refreshToken
             };
             var data = JsonConvert.SerializeObject(model);
             var stringContent = new StringContent(data, UnicodeEncoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("/Account/refresh-token", stringContent);
+            var response = await _httpClient.PostAsync("/Account/refresh-token/", stringContent);
             var result = JsonConvert.DeserializeObject<AuthResponseModel>(await response.Content.ReadAsStringAsync());
             var jwt = new JwtSecurityTokenHandler().ReadJwtToken(result.AccessToken);
             string role = jwt.Claims.FirstOrDefault(c => c.Type == "role").Value;

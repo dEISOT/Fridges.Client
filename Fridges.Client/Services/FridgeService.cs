@@ -1,7 +1,8 @@
-﻿using Fridges.Client.Models;
-using Fridges.Client.Services.Contracts;
+﻿using Fridges.Client.Services.Contracts;
+using Fridges.Client.ViewModels;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using System.Text;
 
 namespace Fridges.Client.Services
 {
@@ -14,6 +15,21 @@ namespace Fridges.Client.Services
             _httpClient = httpClient;
         }
 
+        public async Task Add(string name, string typeId, string jwt)
+        {
+            FridgeType model = new FridgeType()
+            {
+                Name = name,
+                TypeId = new Guid(typeId)
+            };
+            var data = JsonConvert.SerializeObject(model);
+            var stringContent = new StringContent(data, UnicodeEncoding.UTF8, "application/json");
+            _httpClient.DefaultRequestHeaders.Accept.Add( 
+                new MediaTypeWithQualityHeaderValue("application/json"));
+            _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {jwt}");
+            await _httpClient.PostAsync("/Fridge", stringContent);
+        }
+
         public async Task DeleteAsync(Guid fridgeId, string jwt)
         {
             _httpClient.DefaultRequestHeaders.Accept.Add(
@@ -22,21 +38,14 @@ namespace Fridges.Client.Services
             await _httpClient.DeleteAsync($"/Fridge/{fridgeId}");
         }
 
-        public async Task<IEnumerable<Fridge>> GetAsync(string jwt)
+        public async Task<FridgeViewModel> GetAsync(string jwt)
         {
-            
             _httpClient.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
             _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {jwt}");
-            try
-            {
-                using var response = await _httpClient.GetAsync("/Fridge");
-                return JsonConvert.DeserializeObject<IEnumerable<Fridge>>(await response.Content.ReadAsStringAsync());
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+
+            using var response = await _httpClient.GetAsync("/Fridge");
+            return JsonConvert.DeserializeObject<FridgeViewModel>(await response.Content.ReadAsStringAsync());
 
         }
     }

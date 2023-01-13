@@ -24,15 +24,16 @@ namespace Fridges.Client.Controllers
             int pageSize = 3;
             var jwt = HttpContext.Request.Cookies["accessToken"];
 
-            var fridges = await _fridgeService.GetAsync(jwt);
-            int count = fridges.Count();
-            var items = fridges.Skip((page - 1) * pageSize).Take(pageSize);
+            var result = await _fridgeService.GetAsync(jwt);
+            int count = result.Fridges.Count();
+            var items = result.Fridges.Skip((page - 1) * pageSize).Take(pageSize);
             PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
             IndexViewModel viewModel = new IndexViewModel
             {
                 PageViewModel = pageViewModel,
                 Fridges = items
             };
+            ViewBag.FridgeTypes = result.Types;
             return View(viewModel);
         }
         public async Task<IActionResult> Assortment(Guid fridgeId)
@@ -42,6 +43,12 @@ namespace Fridges.Client.Controllers
             ViewBag.ProductList = data.ProductList;
             ViewBag.FridgeId = fridgeId;
             return View();
+        }
+        public async Task<IActionResult> Add(string name, string typeId)
+        {
+            var jwt = HttpContext.Request.Cookies["accessToken"];
+            await _fridgeService.Add(name, typeId, jwt);
+            return Redirect("/Fridge/Fridges");
         }
 
         public async Task<IActionResult> Delete(Guid fridgeId)

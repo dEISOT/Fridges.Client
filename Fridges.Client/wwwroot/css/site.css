@@ -20,9 +20,7 @@ html {
     cursor: pointer;
     float:right;
 }
-.fridge-plate {
 
-}
 mli {
     list-style-type: none;
     marker:none;
@@ -40,13 +38,55 @@ html {
 
 body {
   margin-bottom: 60px;
+  font-family: 'Courier New', monospace;
 }
 .myDiv {
     border: 5px;
     font-family: 'Courier New', monospace;
     text-align: center;
 }
+.fridge-index-title {
+    text-align:center;
+    font-size:40px;
+}
 
+.fridge-index-dscrp {
+    text-align: left;
+    font-size: 22px;
+}
+.fridge-index-desrp-title{
+    text-align:left;
+    font-size: 32px;
+}
+
+.promotion_btns {
+    display: flex;
+    justify-content: space-between;
+}
+
+.promotion_btn {
+    width: 30px;
+    height: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+    padding: 8%;
+    margin-right: 2px;
+    cursor: pointer;
+}
+
+.fridge_btn {
+    border-radius: 7px;
+    height: 25px;
+    width: 25px;
+    border-width:0.1px;
+}
+#fridgeCard{
+    margin:0;
+}
+.icn{
+    width:25px;
+    height:25px;
+}
 .title {
     font-size: 150%;
     font-weight: 500;
@@ -116,6 +156,7 @@ body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
 }
+
 
 .footer {
     position: absolute;

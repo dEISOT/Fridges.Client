@@ -10,26 +10,31 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IAssortmentService, Assortmentservice>();
 builder.Services.AddScoped<IFridgeService, FridgeService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddTransient<UnathorizedHandler>();
+builder.Services.AddScoped<UnathorizedHandler>();
 
 builder.Services.AddHttpClient<IFridgeService, FridgeService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:7183");
 
-});
-//builder.Services.AddHttpClient<IAssortmentService, Assortmentservice>(client =>
-//{
-//    client.BaseAddress = new Uri("https://localhost:7183");
+}).AddHttpMessageHandler<UnathorizedHandler>();
 
-//});
+builder.Services.AddHttpClient<IAssortmentService, Assortmentservice>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7183");
+
+}).AddHttpMessageHandler<UnathorizedHandler>();
+
 builder.Services.AddHttpClient<IAccountService, AccountService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:7183");
 
 });
 
-builder.Services.AddHttpClient<IHttpFridgeClient, HttpFridgeClient>()
-    .AddHttpMessageHandler<UnathorizedHandler>();
+builder.Services.AddHttpClient<IFridgeService, FridgeService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7183");
+
+});
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

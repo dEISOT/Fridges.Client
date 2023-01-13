@@ -12,29 +12,29 @@ namespace Fridges.Client.Controllers
             _assortmentService = assortmentService;
         }
 
-        //public async Task<IActionResult> Delete(string assortmentId)
-        //{
-        //    await _assortmentService.DeleteAsync(assortmentId);
-        //    return Redirect("/Fridge/Fridges");
-        //}
+        public async Task<IActionResult> Delete(string assortmentId)
+        {
+            await _assortmentService.DeleteAsync(assortmentId);
+            return Redirect("/Fridge/Fridges");
+        }
 
-        //public async Task<IActionResult> DeleteAll(string fridgeId)
-        //{
-        //    await _assortmentService.DeleteAllAsync(fridgeId);
-        //    return Redirect("/Fridge/Fridges");
-        //}
+        public async Task<IActionResult> DeleteAll(string fridgeId)
+        {
+            await _assortmentService.DeleteAllAsync(fridgeId);
+            return Redirect("/Fridge/Fridges");
+        }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Put(string assortmentId, int newQuantity)
-        //{
-        //    await _assortmentService.UpdateAsync(assortmentId, newQuantity);
-        //    return Redirect("/Fridge/Fridges");
-        //}
-        //[HttpPost]
-        //public async Task<IActionResult> Add(string fridgeId, string productId, int quantity)
-        //{
-        //    await _assortmentService.AddAsync(fridgeId, productId, quantity);
-        //    return Redirect($"/Fridge/Assortment?fridgeId={fridgeId}");
-        //}
+        [HttpPost]
+        public async Task<IActionResult> Put(string assortmentId, int newQuantity)
+        {
+            await _assortmentService.UpdateAsync(assortmentId, newQuantity);
+            return Redirect("/Fridge/Fridges");
+        }
+        [HttpPost]
+        public async Task<IActionResult> Add(string fridgeId, string productId, int quantity)
+        {
+            await _assortmentService.AddAsync(fridgeId, productId, quantity);
+            return Redirect($"/Fridge/Assortment?fridgeId={fridgeId}");
+        }
     }
 }
