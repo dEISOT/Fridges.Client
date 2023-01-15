@@ -29,6 +29,10 @@ namespace Fridges.Client.Controllers
             return View();
         }
         
+        public async Task<IActionResult> AdminPanel()
+        {
+            return View();
+        }
         public async Task<IActionResult> Logout()
         {
             var refreshToken = HttpContext.Request.Cookies["refreshToken"];
